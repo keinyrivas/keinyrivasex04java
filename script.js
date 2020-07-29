@@ -1,26 +1,39 @@
 function Pessoa(nome, email) {
+    console.log("Pessoa")
+
     this.nome = nome
     this.email = email
+    this.tipoEmail = comparaEmail(email)
 }
-    function comparaEmail(pessoas) {
-        let emailGmail;
-        let emailHotmail;
-        
-        for (let pessoa of pessoas) {
-            if (typeof emailGmail == 'undefined') {
-                emailGmail = pessoa.email
-                emailHotmail = pessoa
-            } else {
-               if (pessoa.email > emailGmail) {
-                emailGmail = pessoa.gmail
-                emailHotmail = pessoa
-            }
-         }
+function comparaEmail(email) {
+    console.log("comparaEmail")
+
+    if (email.includes("gmail")){
+        return "gmail"
+    }else if(email.includes("hotmail")){
+        return "hotmail"
     }
-        return emailHotmail;
+    return "outros"
+    
+    // let tipo
+    // let emailHotmail;
+    
+    // for (let pessoa of pessoas) {
+    //     if (typeof emailGmail == 'undefined') {
+    //         emailGmail = pessoa.email
+    //         emailHotmail = pessoa
+    //     } else {
+    //         if (pessoa.email > emailGmail) {
+    //             emailGmail = pessoa.gmail
+    //             emailHotmail = pessoa
+    //         }
+    //      }
+    // }
+    //     return emailHotmail;
 }
 
-    function listaRegistros(registros) {
+function listaRegistros(registros) {
+    console.log("listaRegistros")
     
     let intro = document.createElement('div');
     intro.innerHTML += '<p>Pessoas Cadastradas:</p>'
@@ -37,20 +50,8 @@ function Pessoa(nome, email) {
     adicionaResultado(intro)
 }
 
-document.querySelector('form').addEventListener('submit', (e) => {
-    registraPessoa(e)
-    limpaResultados()
-    listaRegistros(registros)
-}
-
-let correosEmails = comparaEmail(registros)
-    let comparAcao = document.createElement('p')
-    comparAcao.textContent = `A pessoa usa determinado email  ${correosEmails.nome} com ${correosEmails.nome}`
-    adicionaResultado(comparAcao)
-
-let registros = []
-
 function registraPessoa(event) {
+    console.log("registraPessoa")
     event.preventDefault()
 
     let form = event.target
@@ -67,9 +68,29 @@ function registraPessoa(event) {
 }
 
 function limpaResultados() {
+    console.log("limpaResultados")
     document.querySelector('#resultados').innerHTML = ''
 }
 
 function adicionaResultado(elemento) {
+    console.log("adicionaResultado")
     document.querySelector('#resultados').appendChild(elemento)
 }
+
+document.querySelector('form').addEventListener('submit', (e) => {
+    console.log("submit")
+    registraPessoa(e)
+    limpaResultados()
+    listaRegistros(registros)
+
+    // let correosEmails = comparaEmail(registros)
+    // Ultima pessoa
+    let pessoa = registros.slice(-1)[0]
+    let comparAcao = document.createElement('p')
+    comparAcao.textContent = `${pessoa.nome} usa um email do tipo: ${pessoa.tipoEmail} no email: ${pessoa.email}`
+    adicionaResultado(comparAcao)
+
+})
+
+
+let registros = []
